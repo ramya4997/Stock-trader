@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar color="deep-purple accent-4" dense dark>
+    <v-app-bar color="#BBDEFB" dense dark>
       <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
 
       <v-toolbar-title>
@@ -8,28 +8,18 @@
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
-
-      <!-- <v-btn icon>
-        <v-icon>mdi-heart</v-icon>
-      </v-btn>-->
-
-      <!-- <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>-->
-
-      <v-menu left bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on">
-            <v-icon>mdi-dots-vertical</v-icon>
-          </v-btn>
-        </template>
-
-        <v-list>
-          <v-list-item v-for="n in 5" :key="n" @click="() => {}">
-            <v-list-item-title>Option {{ n }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+      <!-- <div class="text-center">
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn color="primary" dark v-bind="attrs" v-on="on">Dropdown</v-btn>
+          </template>
+          <v-list>
+            <v-list-item v-for="(item, index) in items" :key="index">
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </div>-->
     </v-app-bar>
 
     <v-card class="mx-auto" height="400" width="256">
@@ -50,6 +40,21 @@
     </v-card>
   </div>
 </template>
+
+  <script>
+export default {
+  data: () => ({
+    items: [
+      { title: "Click Me" },
+      { title: "Click Me" },
+      { title: "Click Me" },
+      { title: "Click Me 2" }
+    ]
+  })
+};
+</script>
+
+
 
 <style scoped>
 .router-link {
