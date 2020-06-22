@@ -1,63 +1,92 @@
+<!--
+<template>
+  
+  <v-toolbar dense>
+    <v-toolbar-title>
+      <router-link to="/">Stock Trader</router-link>
+    </v-toolbar-title>
+
+    <router-link to="./portfolio">Portfolio</router-link>
+
+    <router-link to="./stocks">Stocks</router-link>
+
+    <v-spacer></v-spacer>
+
+    <a href="#">End Day</a>
+
+    <div class="text-center">
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn color="primary" dark v-bind="attrs" v-on="on"
+            >Save and Load</v-btn
+          >
+        </template>
+        <v-list>
+          <v-list-item v-for="(item, index) in items" :key="index">
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </div>
+  </v-toolbar>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      items: [{ title: 'Save Data' }, { title: 'Load Data' }],
+    };
+  },
+};
+</script>
+-->
+
 <template>
   <div>
-    <v-app-bar color="#BBDEFB" dense dark>
-      <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
-
+    <v-app-bar color="deep-purple accent-4" dense dark>
       <v-toolbar-title>
-        <router-link to="/">Stock Trader</router-link>
+        <v-btn rounded color="primary" dark to="/">Stock Trader</v-btn>
+        <v-btn text color="primary" dark to="/portfolio">Portfolio</v-btn>
+        <v-btn text color="primary" dark to="/stocks">Stocks</v-btn>
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
-      <!-- <div class="text-center">
-        <v-menu offset-y>
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn color="primary" dark v-bind="attrs" v-on="on">Dropdown</v-btn>
-          </template>
-          <v-list>
-            <v-list-item v-for="(item, index) in items" :key="index">
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </div>-->
-    </v-app-bar>
 
-    <v-card class="mx-auto" height="400" width="256">
-      <v-navigation-drawer class="deep-purple accent-4" dark permanent>
+      <v-btn href="#" @click="endDay">End Day</v-btn>
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn color="primary" dark v-bind="attrs" v-on="on">Save and Load Data</v-btn>
+        </template>
         <v-list>
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title>
-                <router-link to="./portfolio">Portfolio</router-link>
-              </v-list-item-title>
-              <v-list-item-title>
-                <router-link to="./stocks">Stocks</router-link>
-              </v-list-item-title>
-            </v-list-item-content>
+          <v-list-item v-for="(item, index) in items" :key="index">
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item>
         </v-list>
-      </v-navigation-drawer>
-    </v-card>
+      </v-menu>
+      <strong style="padding: 10px">Funds: {{funds | currency}}</strong>
+    </v-app-bar>
   </div>
 </template>
 
-  <script>
+<script>
+import { mapActions } from "vuex";
 export default {
-  data: () => ({
-    items: [
-      { title: "Click Me" },
-      { title: "Click Me" },
-      { title: "Click Me" },
-      { title: "Click Me 2" }
-    ]
-  })
+  data() {
+    return {
+      items: [{ title: "Save Data" }, { title: "Load Data" }]
+    };
+  },
+  computed: {
+    funds() {
+      return this.$store.getters.funds;
+    }
+  },
+  methods: {
+    ...mapActions(["randomizeStocks"]),
+    endDay() {
+      this.randomizeStocks();
+    }
+  }
 };
 </script>
-
-
-
-<style scoped>
-.router-link {
-  color: white;
-}
-</style>
