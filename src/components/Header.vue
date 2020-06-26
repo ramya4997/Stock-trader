@@ -59,9 +59,11 @@ export default {
           <v-btn color="primary" dark v-bind="attrs" v-on="on">Save and Load Data</v-btn>
         </template>
         <v-list>
-          <v-list-item v-for="(item, index) in items" :key="index">
+          <!-- <v-list-item v-for="(item, index) in items" :key="index">
             <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item>
+          </v-list-item>-->
+          <v-list-item @click="saveData">Save Data</v-list-item>
+          <v-list-item @click="loadData">Load Data</v-list-item>
         </v-list>
       </v-menu>
       <strong style="padding: 10px">Funds: {{funds | currency}}</strong>
@@ -72,20 +74,29 @@ export default {
 <script>
 import { mapActions } from "vuex";
 export default {
-  data() {
-    return {
-      items: [{ title: "Save Data" }, { title: "Load Data" }]
-    };
-  },
   computed: {
     funds() {
       return this.$store.getters.funds;
     }
   },
   methods: {
-    ...mapActions(["randomizeStocks"]),
+    ...mapActions({
+      randomizeStocks: "randomizeStocks",
+      fetchData: "loadData"
+    }),
     endDay() {
       this.randomizeStocks();
+    },
+    saveData() {
+      const data = {
+        funds: this.$store.getters.funds,
+        stockPortfolio: this.$store.getters.stockPortfolio,
+        stocks: this.$store.getters.stocks
+      };
+      this.$http.put("data.json", data);
+    },
+    loadData() {
+      this.fetchData();
     }
   }
 };
